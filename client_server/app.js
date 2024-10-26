@@ -39,11 +39,11 @@ let questionPurchase = [
     name: 'itemNumber',
     message: 'please enter book item number to purchase it: ',
   },
-  {
-    type: 'number',
-    name: 'money',
-    message: 'Enter amount of money to pay:  ',
-  },
+  // {
+  //   type: 'number',
+  //   name: 'money',
+  //   message: 'Enter amount of money to pay:  ',
+  // },
 ];
 
 // Define search-book-title command
@@ -106,9 +106,9 @@ program
       .prompt(questionPurchase)
       .then(async (answers) => {
         try {
-          const result = await axios.post(`http://localhost:8083/order-server/purch`, {
+          const result = await axios.post(`http://localhost:4000/ORDER_WEBSERVICE_IP/purchase/${answers.itemNumber}`, {
             id: answers.itemNumber,
-            orderCost: answers.money,
+            //orderCost: answers.money,
           });
           console.log('Response Data:', result.data);
         } catch (error) {
