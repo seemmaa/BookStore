@@ -27,7 +27,7 @@ db.all(sql,[],(err,rows)=>{
 });
 const app = express();
 
-const infoRouter = require('./routes/infoRouter');
+const catalogRoutes= require('./routes/catalogRoutes');
 
 
 
@@ -37,7 +37,7 @@ const PORT = process.env.PORT || 3000;
 app.use(express.json());
 
 // all Routes here
-app.use('/CATALOG_WEBSERVICE_IP', infoRouter);
+app.use('/CATALOG_WEBSERVICE_IP', catalogRoutes);
 //app.use('/CATALOG_WEBSERVICE_IP', infoRouter);
 
 
