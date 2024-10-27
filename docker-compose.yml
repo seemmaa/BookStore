@@ -1,0 +1,38 @@
+version: '3'
+services:
+  catalog_server:
+    build: ./catalog_server
+    container_name: catimg
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./catalog_server/Database/Book.db:/usr/src/app/Book.db
+    networks:
+      - bazar-network
+
+  order_server:
+    build: ./order_server
+    container_name: orderimg
+    ports:
+      - "4000:4000"
+    depends_on:
+      - catalog_server
+    # volumes:
+    #   - ./order-service/database.db:/usr/src/app/database.db
+    networks:
+      - bazar-network
+
+  client_server:
+    build: ./client_server
+    container_name: clientimg
+    ports:
+      - "5000:5000"
+    depends_on:
+      - catalog_server
+      - order_server
+    networks:
+      - bazar-network
+
+networks:
+  bazar-network:
+    driver: bridge

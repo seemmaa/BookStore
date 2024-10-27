@@ -6,6 +6,10 @@ const bodyParser = require('body-parser');
 const cron = require('node-cron');
 const axios = require('axios');
 
+const app = express();
+const PORT = process.env.PORT || 5000; 
+
+
 // Use CommonJS require instead of ES6 import
 const { Command } = require('commander');
 const inquirer = require('inquirer');
@@ -56,7 +60,7 @@ program
       .prompt(questionSearch)
       .then(async (answers) => {
         try {
-          const result = await axios.get(`http://localhost:3000/CATALOG_WEBSERVICE_IP/search/${answers.bookTitle}`);
+          const result = await axios.get(`http://catalog_server:3000/search/${answers.bookTitle}`);
           console.log('Response Data:', result.data);
         } catch (error) {
           console.error('Error during request:', error.message);
@@ -81,7 +85,7 @@ program
       .prompt(questionInfo)
       .then(async (answers) => {
         try {
-          const result = await axios.get(`http://localhost:3000/CATALOG_WEBSERVICE_IP/info/${answers.itemNumber}`);
+          const result = await axios.get(`http://catalog_server:3000/info/${answers.itemNumber}`);
           console.log('Response Data:', result.data);
         } catch (error) {
           console.error('Error during request:', error.message);
@@ -106,7 +110,7 @@ program
       .prompt(questionPurchase)
       .then(async (answers) => {
         try {
-          const result = await axios.post(`http://localhost:4000/ORDER_WEBSERVICE_IP/purchase/${answers.itemNumber}`, {
+          const result = await axios.post(`http://order_server:4000/purchase/${answers.itemNumber}`, {
             id: answers.itemNumber,
             //orderCost: answers.money,
           });
@@ -126,3 +130,7 @@ program
 
 // Parse the command-line arguments
 program.parse();
+
+app.listen(PORT, () => {
+  console.log(`Cloent server running on port ${PORT}...`);
+});
