@@ -10,17 +10,17 @@ const app = express();
 const PORT = process.env.PORT || 5000; 
 
 
-// Use CommonJS require instead of ES6 import
+
 const { Command } = require('commander');
 const inquirer = require('inquirer');
 const fs = require('fs');
 
 
-// Define the CLI using Commander
+
 const program = new Command();
 program.name('CLI').description('CLI for DOS Project').version('1.0.0');
 
-// Define questions for searching, info, and purchasing
+
 let questionSearch = [
   {
     type: 'input',
@@ -43,14 +43,10 @@ let questionPurchase = [
     name: 'itemNumber',
     message: 'please enter book item number to purchase it: ',
   },
-  // {
-  //   type: 'number',
-  //   name: 'money',
-  //   message: 'Enter amount of money to pay:  ',
-  // },
+ 
 ];
 
-// Define search-book-title command
+
 program
   .command('search-book-title')
   .alias('s')
@@ -68,14 +64,14 @@ program
       })
       .catch((error) => {
         if (error.isTtyError) {
-          // Prompt couldn't be rendered in the current environment
+         
         } else {
-          // Something else went wrong
+         
         }
       });
   });
 
-// Define info-book-item-number command
+
 program
   .command('info-book-item-number')
   .alias('i')
@@ -93,14 +89,14 @@ program
       })
       .catch((error) => {
         if (error.isTtyError) {
-          // Prompt couldn't be rendered in the current environment
+         
         } else {
-          // Something else went wrong
+         
         }
       });
   });
 
-// Define purchase-book-by-item-number command
+
 program
   .command('purchase-book-by-item-number')
   .alias('p')
@@ -112,7 +108,7 @@ program
         try {
           const result = await axios.post(`http://order_server:4000/purchase/${answers.itemNumber}`, {
             id: answers.itemNumber,
-            //orderCost: answers.money,
+          
           });
           console.log('Response Data:', result.data);
         } catch (error) {
@@ -121,14 +117,14 @@ program
       })
       .catch((error) => {
         if (error.isTtyError) {
-          // Prompt couldn't be rendered in the current environment
+         
         } else {
-          // Something else went wrong
+         
         }
       });
   });
 
-// Parse the command-line arguments
+
 program.parse();
 
 app.listen(PORT, () => {
