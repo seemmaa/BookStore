@@ -6,7 +6,7 @@ services:
     ports:
       - "3000:3000"
     volumes:
-      - ./catalog_server/Database/Book.db:/usr/src/app/Book.db
+      - ./catalog_server/Database/Book.db:/usr/src/app/Book.db:rw
     networks:
       - bazar-network
 
