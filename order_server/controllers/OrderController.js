@@ -19,7 +19,7 @@ exports.purchase = async (req, res) => {
                 return res.status(400).json({ message: 'Item is out of stock.' });
             }
 
-            // Decrement the stock count by one
+            //// Decrement the stock count by one
             const updatedCount = bookInfo.count - 1;
 
             // Send a PUT request to update the stock in the catalog server
