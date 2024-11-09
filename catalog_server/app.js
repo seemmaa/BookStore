@@ -14,7 +14,7 @@ const db =new sqlite3.Database("./Database/Book.db",sqlite3.OPEN_READWRITE,(err)
 // sql= 'CREATE TABLE Books(id INTEGER PRIMARY KEY,name,count,cost,topic)';
 // //db.run(sql);
 // sql='INSERT INTO Books(name,count,cost,topic)VALUES (?,?,?,?)';
-// db.run(sql,["Cooking for the Impatient Undergrad",50,70," undergraduate school"],(err)=>{
+// db.run(sql,["Spring in the Pioneer Valley",55,30," undergraduate school"],(err)=>{
 //     if (err) return console.error(err.message);
 // });
 
