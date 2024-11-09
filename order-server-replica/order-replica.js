@@ -20,7 +20,7 @@ app.post('/ORDER_WEBSERVICE_IP/purchase/:id', async (req, res) => {
         // Decrement the stock count by one
         const updatedCount = bookInfo.count - 1;
 
-        //// Call the updateCount service to update the stock
+        // Call the updateCount service to update the stock
         await axios.put(`http://localhost:3001/CATALOG_WEBSERVICE_IP/updateCount/${itemId}`, {
             count: updatedCount
         });

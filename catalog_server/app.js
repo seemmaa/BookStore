@@ -9,7 +9,7 @@ const axios = require('axios');
 const db =new sqlite3.Database("./Database/Book.db",sqlite3.OPEN_READWRITE,(err)=>{
     if(err) return console.error(err.message);
 });
-////sql='DELETE FROM Books WHERE id=5';
+//sql='DELETE FROM Books WHERE id=5';
 //db.run(sql);
 // sql= 'CREATE TABLE Books(id INTEGER PRIMARY KEY,name,count,cost,topic)';
 // //db.run(sql);

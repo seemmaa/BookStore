@@ -47,7 +47,7 @@ app.get('/search/:topic', async (req, res) => {
   }
 });
 
-//// Get info about a book by item number
+// Get info about a book by item number
 app.get('/info/:id', async (req, res) => {
   const  itemNumber = req.params.id; // Get item number from query params
   if (!itemNumber) {

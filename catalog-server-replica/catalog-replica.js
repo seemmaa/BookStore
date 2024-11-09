@@ -103,7 +103,7 @@ app.get('/CATALOG_WEBSERVICE_IP/search/:topic', (req, res) => {
     });
 });
 
-//// Route to update the count of a book by ID with "CATALOG_WEBSERVICE_IP" in the URL path
+// Route to update the count of a book by ID with "CATALOG_WEBSERVICE_IP" in the URL path
 app.put('/CATALOG_WEBSERVICE_IP/updateCount/:id', (req, res) => {
     const bookId = req.params.id;
     const newCount = req.body.count; // Get new count from request body
