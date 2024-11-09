@@ -1,0 +1,84 @@
+                  BAZAR.COM
+                     PART 1
+
+Sema Hodali 12029448
+Leema Abu-Aladel 12029320
+Introduction:
+
+Bazar.com is online bookstore designed as two tier web
+microservices, backend implemented with node.js, database
+is sqlite3, backend has two microservices (catalog and order),
+docker and docker compose tool are utilize to deploy the
+microservices.
+
+Project hierarchy:
+
+Bazar book store consists of three services catalog, order and
+client(front end)
+Each service has its own packages and docker file (as
+complete independent service)
+Microservices:
+
+Catalog service:
+This microservice handle query operation like info and search
+operations, and update operation like update count
+operation.
+-Info by id:
+
+http://localhost:3000/CATALOG_WEBSERVICE_IP/info/id
+
+-search by book topic:
+
+http://localhost:3000/search/bookTopic
+
+-update book count by id:
+
+http://localhost:3000/updateCount /id
+
+Order service:
+This microservice support purchase operation which depend
+on catalog service (info and update count).
+
+-Purchase by book id:
+
+http://localhost:4000/purchase/id
+Client service :
+This microsevice represent the front end of the system which
+receive user request and call catalog and order operation
+according to request.
+
+Running the project:
+Cd the directory where docker-compose.yml file located
+To build all containers  docker-compose up -d –build
+To stop all containers  docker-compose down
+
+Commands and Output:
+Inside client server (front end) VScode terminal
+To get book info
+-Node app.js info-book-item-number
+Then enter book id
+To purchase book
+-node app.js purchase-book-by-item-number
+Then enter book id
+
+Note that after purchase the book with id 4 the count
+decreased by 1
+
+To search for book
+-node app.js search-book-title
+Then enter book topic
+possible improvements and extensions:
+
+add the user budget to purchase request, if budget is enough
+to buy the book the operation done successfully else error
+message appear.
+
+http://localhost:4000/purchase/id/budget
+
+known issues:
+
+Race Conditions (concurrency Issues): If multiple users
+attempt to purchase the same book simultaneously, race
+conditions might occur, leading to inconsistencies in stock
+levels.
+
