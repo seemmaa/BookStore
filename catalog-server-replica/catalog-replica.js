@@ -23,7 +23,7 @@ const db = new sqlite3.Database("./Book-replica.db", sqlite3.OPEN_READWRITE, (er
 // });
 // sql='DROP TABLE Books';
 // db.run(sql);
-// Array of book data
+//Array of book data
 // const books = [
 //     [1,"RPCs for Noobs", 29, 150, "Distributed systems"],
 //     [2,"How to get a good grade in DOS in 40 minutes a day", 10, 100, "Distributed systems"],

@@ -8,124 +8,80 @@ const axios = require('axios');
 const app = express();
 const PORT = process.env.PORT || 5000;
 
+app.use(bodyParser.json());
+const catalogServers = ["http://localhost:3000", "http://localhost:3001"];
+let catalogCounter = 0; // Counter to alternate between servers
+
+// Function to get catalog server based on round-robin
+function getCatalogServer() {
+    const server = catalogServers[catalogCounter % 2]; // Toggle between 0 and 1
+    catalogCounter++; // Increment the counter for the next request
+    return server;
+}
+
+const orderServers = ["http://localhost:4000", "http://localhost:4001"];
+let orderCounter = 0; // Counter to alternate between servers
+
+// Function to get catalog server based on round-robin
+function getOrderServer() {
+    const server2 = orderServers[orderCounter % 2]; // Toggle between 0 and 1
+    orderCounter++; // Increment the counter for the next request
+    return server2;
+}
 
 
-const { Command } = require('commander');
-const inquirer = require('inquirer');
-const fs = require('fs');
+// Search for a book by title
+app.get('/search/:topic', async (req, res) => {
+  const  bookTitle  = req.params.topic; // Get book title from query params
+  if (!bookTitle) {
+    return res.status(400).json({ error: "Book title is required." });
+  }
 
+  try {
+    const server=getCatalogServer();
+    console.log(server);
+    const result = await axios.get(`${server}/CATALOG_WEBSERVICE_IP/search/${bookTitle}`);
+    res.json(result.data); // Send back the catalog server response to the client
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
 
+// Get info about a book by item number
+app.get('/info/:id', async (req, res) => {
+  const  itemNumber = req.params.id; // Get item number from query params
+  if (!itemNumber) {
+    return res.status(400).json({ error: "Item number is required." });
+  }
 
-const program = new Command();
-program.name('CLI').description('CLI for DOS Project').version('1.0.0');
+  try { const server=getCatalogServer();
+    const result = await axios.get(`${server}/CATALOG_WEBSERVICE_IP/info/${itemNumber}`);
+    res.json(result.data);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
 
+// Purchase a book by item number
+app.post('/purchase/:id', async (req, res) => {
+  const  itemNumber = req.params.id; // Get item number from request body
+  if (!itemNumber) {
+    return res.status(400).json({ error: "Item number is required." });
+  }
 
-let questionSearch = [
-  {
-    type: 'input',
-    name: 'bookTitle',
-    message: 'please enter book topic to get details about it: ',
-  },
-];
+  try {
+    const server2=getOrderServer();
+    const result = await axios.post(`${server2}/ORDER_WEBSERVICE_IP/purchase/${itemNumber}`, {
+      id: itemNumber,
+      // orderCost: req.body.money, // Optional field
+    });
+    res.json(result.data);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
 
-let questionInfo = [
-  {
-    type: 'number',
-    name: 'itemNumber',
-    message: 'please enter item number to get info about it: ',
-  },
-];
-
-let questionPurchase = [
-  {
-    type: 'number',
-    name: 'itemNumber',
-    message: 'please enter book item number to purchase it: ',
-  },
- 
-];
-
-
-program
-  .command('search-book-title')
-  .alias('s')
-  .description('search about specific book using book topic')
-  .action(() => {
-    inquirer
-      .prompt(questionSearch)
-      .then(async (answers) => {
-        try {
-          const result = await axios.get(`http://catalog_server:3000/search/${answers.bookTitle}`);
-          console.log('Response Data:', result.data);
-        } catch (error) {
-          console.error('Error during request:', error.message);
-        }
-      })
-      .catch((error) => {
-        if (error.isTtyError) {
-         
-        } else {
-         
-        }
-      });
-  });
-
-
-program
-  .command('info-book-item-number')
-  .alias('i')
-  .description('info about specific book using item number')
-  .action(() => {
-    inquirer
-      .prompt(questionInfo)
-      .then(async (answers) => {
-        try {
-          const result = await axios.get(`http://catalog_server:3000/info/${answers.itemNumber}`);
-          console.log('Response Data:', result.data);
-        } catch (error) {
-          console.error('Error during request:', error.message);
-        }
-      })
-      .catch((error) => {
-        if (error.isTtyError) {
-         
-        } else {
-         
-        }
-      });
-  });
-
-
-program
-  .command('purchase-book-by-item-number')
-  .alias('p')
-  .description('purchase specific book using item number')
-  .action(() => {
-    inquirer
-      .prompt(questionPurchase)
-      .then(async (answers) => {
-        try {
-          const result = await axios.post(`http://order_server:4000/purchase/${answers.itemNumber}`, {
-            id: answers.itemNumber,
-          
-          });
-          console.log('Response Data:', result.data);
-        } catch (error) {
-          console.error('Error during request:', error.message);
-        }
-      })
-      .catch((error) => {
-        if (error.isTtyError) {
-         
-        } else {
-         
-        }
-      });
-  });
-
-
-program.parse();
-
+// Start the server
 app.listen(PORT, () => {
   console.log(`Client server running on port ${PORT}...`);
 });
