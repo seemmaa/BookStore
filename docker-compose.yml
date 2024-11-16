@@ -4,7 +4,8 @@ services:
     build: ./catalog_server
     container_name: catimg
     ports:
-      - "3000:3000"
+      - "3000:3000"    # Original catalog server
+      - "3001:3001"    # Replica catalog server
     volumes:
       - ./catalog_server/Database/Book.db:/usr/src/app/Book.db:rw
     networks:
@@ -14,7 +15,8 @@ services:
     build: ./order_server
     container_name: orderimg
     ports:
-      - "4000:4000"
+      - "4000:4000"    # Original order server
+      - "4001:4001"    # Replica order server
     depends_on:
       - catalog_server
     # volumes:
