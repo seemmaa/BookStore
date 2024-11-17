@@ -9,7 +9,7 @@ const app = express();
 const PORT = process.env.PORT || 5000;
 
 app.use(bodyParser.json());
-const catalogServers = ["http://localhost:3000", "http://localhost:3001"];
+const catalogServers = ["http://catalog_server:3000", "http://catalog-server-replica:3001"];
 let catalogCounter = 0; // Counter to alternate between servers
 
 // Function to get catalog server based on round-robin
@@ -19,7 +19,7 @@ function getCatalogServer() {
     return server;
 }
 
-const orderServers = ["http://localhost:4000", "http://localhost:4001"];
+const orderServers = ["http://order_server:4000", "http://order-server-replica:4001"];
 let orderCounter = 0; // Counter to alternate between servers
 
 // Function to get catalog server based on round-robin
