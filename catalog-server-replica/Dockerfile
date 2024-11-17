@@ -15,4 +15,4 @@ COPY . .
 EXPOSE 3001
 
 # Command to run the app
-CMD ["node", "./app.js"]
+CMD ["node", "./catalog-replica.js"]
