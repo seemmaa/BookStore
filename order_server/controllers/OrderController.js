@@ -5,7 +5,7 @@ exports.purchase = async (req, res) => {
 
     try {
         // Query the catalog server to verify stock
-        const response = await axios.get(`http://localhost:3000/CATALOG_WEBSERVICE_IP/info/${item_id}`);
+        const response = await axios.get(`http://catalog_server:3000/CATALOG_WEBSERVICE_IP/info/${item_id}`);
     
         // Log the response to check its structure
         console.log('Catalog response:', response.data);
@@ -23,11 +23,11 @@ exports.purchase = async (req, res) => {
             const updatedCount = bookInfo.count - 1;
 
             // Send a PUT request to update the stock in the catalog server
-            await axios.put(`http://localhost:3000/CATALOG_WEBSERVICE_IP/updateCount/${item_id}`, {
+            await axios.put(`http://catalog_server:3000/CATALOG_WEBSERVICE_IP/updateCount/${item_id}`, {
                 count: updatedCount
             });
             const { count, ...responseData } = bookInfo; // Exclude count
-            await axios.put(`http://localhost:3001/CATALOG_WEBSERVICE_IP/updateCount/${item_id}`, {
+            await axios.put(`http://catalog-server-replica:3001/CATALOG_WEBSERVICE_IP/updateCount/${item_id}`, {
                 count: updatedCount
             });
             

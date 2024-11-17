@@ -17,4 +17,4 @@ COPY . .
 EXPOSE 4001
 
 # Command to run the app
-CMD ["node", "./app.js"]
+CMD ["node", "./order-replica.js"]
